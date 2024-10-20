@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-sc*1rcsl5=u-wo4b*535=d3#0$u0adkh%0@5ddp-r8y(mr(-e6'
+SECRET_KEY = 'django-insecure-lusr1wh^1o-%xkk58uxlikrrj^(@6b59gwan40+k9z^3$#=!w+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'account'
+    'rest_framework',
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -118,24 +118,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR, 'static')
-]
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-REST_FRAMEWORK = {
-    
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-    
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-    
+AUTH_USER_MODEL='user.User'
+CORS_ORIGIN_ALLOW_ALL=True
+CORS_ALLOW_CREDENTIALS= True
 
-}
-
-MEDIA_ROOT = os.path.join(BASE_DIR,"media")
-MEDIA_URL = "/"
