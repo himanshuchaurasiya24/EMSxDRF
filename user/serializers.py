@@ -3,12 +3,14 @@ from rest_framework import serializers
 from user.models import *
 
 class UserSerializer(serializers.ModelSerializer):
-    date_joined = serializers.DateField(format="%d-%m-%Y")
-    dob = serializers.DateField(format="%d-%m-%Y")
+    # date_joined = serializers.DateField(format="%d-%m-%Y")
+    # dob = serializers.DateField(format="%d-%m-%Y")
+    date_joined = serializers.DateField()
+    dob = serializers.DateField()
     
     class Meta:
         model = User
-        fields = '__all__'
+        exclude=['user_permissions', 'password','groups']
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
@@ -45,5 +47,10 @@ class RegisterSerializer(serializers.Serializer):
         user.set_password(validated_data['password'])
         user.save()
         return validated_data
+class EmployeeDataSerializer(serializers.ModelSerializer):
+    employee= UserSerializer()
+    class Meta:
+        model = EmployeeData
+        fields= '__all__'    
             
 

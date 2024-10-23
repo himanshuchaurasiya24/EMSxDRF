@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth import models as auth_model
-from datetime import datetime
+from datetime import date
+
+
 class UserManager(auth_model.BaseUserManager):
     def create_user(self, first_name:str, last_name:str, email:str,username :str,
                     date_joined:str,
@@ -54,4 +56,15 @@ class User(auth_model.AbstractUser):
     REQUIRED_FIELDS=['email','first_name', 'last_name', 'dob', 'address', 'date_joined']
     def __str__(self):
         return self.first_name+' '+str(self.date_joined)
+def get_current_year():
+    return date.today().year
+class EmployeeData(models.Model):
+    CHOICES=[('Exceptional','Exceptional'),('Very Good','Very Good'),('Above Average','Above Average'),('Average','Average'),('Below Average','Below Average')]
+    employee = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
+    is_admin=models.BooleanField(default=False)
+    assesment = models.CharField(max_length=30, choices=CHOICES)
+    assesment_year = models.IntegerField(default=get_current_year)
+    def __str__(self):
+        return self.employee_id.first_name
     
+
