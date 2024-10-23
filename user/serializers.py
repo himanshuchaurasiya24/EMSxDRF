@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from user.models import *
+from rest_framework.response import Response
 
 class UserSerializer(serializers.ModelSerializer):
     # date_joined = serializers.DateField(format="%d-%m-%Y")
@@ -48,9 +49,20 @@ class RegisterSerializer(serializers.Serializer):
         user.save()
         return validated_data
 class EmployeeDataSerializer(serializers.ModelSerializer):
-    employee= UserSerializer()
+    # employee= UserSerializer()
+    employee = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
     class Meta:
         model = EmployeeData
-        fields= '__all__'    
+        fields= '__all__'
+    def validate(self, data):
+        print(data['employee'].id)
+        print(data['assesment_year'])
+        employee_data_list = EmployeeData.objects.filter(employee=data['employee'].id)
+        for employee in employee_data_list:
+            if employee.assesment_year==data['assesment_year']:
+                print(11111)
+                raise serializers.ValidationError('an Assessment for this year already exists')
+        return data
             
 

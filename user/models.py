@@ -65,6 +65,6 @@ class EmployeeData(models.Model):
     assesment = models.CharField(max_length=30, choices=CHOICES)
     assesment_year = models.IntegerField(default=get_current_year)
     def __str__(self):
-        return self.employee_id.first_name
+        return self.employee.first_name
     
 

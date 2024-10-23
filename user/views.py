@@ -1,3 +1,6 @@
+from rest_framework import generics
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -26,23 +29,11 @@ class RegisterAPI(APIView):
             return Response({'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
         return Response({'message':'created'}, status=status.HTTP_201_CREATED)
-from rest_framework import generics
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated 
-
-
-
-
-class EmployeeDataView(APIView):
-    def get(self, request):
-        try:
-            employee_data = EmployeeData.objects.all()
-            if not employee_data:
-                return Response({"error": "No employee data found"}, status=status.HTTP_404_NOT_FOUND)
-            serializer = EmployeeDataSerializer(employee_data, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except EmployeeData.DoesNotExist:
-            return Response({"error":  "EmployeeData not found"}, status=status.HTTP_404_NOT_FOUND)
-
-
+class EmployeeDataGenericsGP(generics.ListAPIView, generics.CreateAPIView):
+    queryset= EmployeeData.objects.all()
+    serializer_class= EmployeeDataSerializer
+class EmployeeDataGenericsUD(generics.UpdateAPIView, generics.DestroyAPIView):
+    queryset = EmployeeData.objects.all()
+    serializer_class= EmployeeDataSerializer
+    lookup_field= 'id'    
     
