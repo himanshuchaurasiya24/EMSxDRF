@@ -11,7 +11,6 @@ class LoginSerializer(serializers.Serializer):
         return data
     
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField()
     class Meta:
         model = User
         fields = '__all__'
@@ -37,7 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
         return data
     def create(self, validated_data):
         user = User.objects.create(
-                                username = validated_data['username'],
+                                username = validated_data['username'].lower(),
                                 email = validated_data['email'],
                                 dob = validated_data['dob'],
                                 date_joined = validated_data['date_joined'],
