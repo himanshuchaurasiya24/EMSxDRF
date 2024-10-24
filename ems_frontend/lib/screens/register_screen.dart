@@ -12,6 +12,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  bool passwordVisible = true;
   final usernameController = TextEditingController();
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -124,6 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 10,
                   ),
                   CustomTextFormField(
+                    readOnly: true,
                     hintText: 'Joining Date',
                     textController: dateJoinedController,
                     suffixIcon: IconButton(
@@ -140,6 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 10,
                   ),
                   CustomTextFormField(
+                    readOnly: true,
                     hintText: 'Date of Birth',
                     textController: dobController,
                     suffixIcon: IconButton(
@@ -164,6 +167,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   CustomTextFormField(
                     hintText: 'password',
+                    obscureText: passwordVisible,
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            passwordVisible = !passwordVisible;
+                          });
+                        },
+                        icon: passwordVisible
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off)),
                     textController: passwordController,
                   ),
                   const SizedBox(

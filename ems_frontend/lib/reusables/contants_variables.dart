@@ -8,7 +8,6 @@ OutlineInputBorder borderTextField = OutlineInputBorder(
   borderSide: BorderSide.none,
 );
 
-
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
@@ -46,9 +45,13 @@ class CustomTextFormField extends StatelessWidget {
     required this.hintText,
     required this.textController,
     this.suffixIcon,
+    this.readOnly,
+    this.obscureText,
   });
   final String hintText;
   final Widget? suffixIcon;
+  final bool? readOnly;
+  final bool? obscureText;
   final TextEditingController textController;
   @override
   Widget build(BuildContext context) {
@@ -58,6 +61,8 @@ class CustomTextFormField extends StatelessWidget {
         color: backgroundColor,
         fontSize: 19,
       ),
+      readOnly: readOnly ?? false,
+      obscureText: obscureText ?? false,
       decoration: InputDecoration(
           hintText: hintText,
           suffixIcon: suffixIcon,

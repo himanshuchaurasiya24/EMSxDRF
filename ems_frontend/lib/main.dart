@@ -8,7 +8,9 @@ late SharedPreferences pref;
 // String refreshToken = '';
 void main() async {
   pref = await SharedPreferences.getInstance();
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
