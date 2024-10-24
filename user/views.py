@@ -24,11 +24,11 @@ class LoginAPI(APIView):
 class RegisterAPI(APIView):
     def post(self , request):
         data = request.data
-        serializer= RegisterSerializer(data= data)
+        serializer= UserSerializer(data= data)
         if not serializer.is_valid():
             return Response({'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
-        return Response({'message':'created'}, status=status.HTTP_201_CREATED)
+        return Response({'message':'created', 'data':serializer.data}, status=status.HTTP_201_CREATED)
 class EmployeeDataGenericsGP(generics.ListAPIView, generics.CreateAPIView):
     queryset= EmployeeData.objects.all()
     serializer_class= EmployeeDataSerializer
@@ -36,4 +36,11 @@ class EmployeeDataGenericsUD(generics.UpdateAPIView, generics.DestroyAPIView):
     queryset = EmployeeData.objects.all()
     serializer_class= EmployeeDataSerializer
     lookup_field= 'id'    
+class UserGenerics(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class= UserSerializer
+class UserGenericsUD(generics.UpdateAPIView, generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class= UserSerializer
+    lookup_field= 'id' 
     

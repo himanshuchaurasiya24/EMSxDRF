@@ -48,12 +48,17 @@ class User(auth_model.AbstractUser):
     email= models.EmailField(verbose_name='Email', max_length=255, unique=True)
     password= models.CharField(max_length=255)
     username = models.CharField(max_length=255, unique=True)
-    date_joined= models.DateField(auto_now_add=True) 
+    date_joined= models.DateField() 
     dob= models.DateField()
     address  = models.CharField(max_length=100, default='add it now')
     objects=UserManager()
     USERNAME_FIELD='username'
-    REQUIRED_FIELDS=['email','first_name', 'last_name', 'dob', 'address', 'date_joined']
+    REQUIRED_FIELDS=['email',
+                     'first_name', 
+                     'last_name', 
+                     'dob', 
+                     'address', 
+                     'date_joined']
     def __str__(self):
         return self.first_name+' '+str(self.date_joined)
 def get_current_year():
