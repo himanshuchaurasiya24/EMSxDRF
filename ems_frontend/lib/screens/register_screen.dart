@@ -1,3 +1,4 @@
+import 'package:ems_frontend/api/api_services.dart';
 import 'package:ems_frontend/reusables/contants_variables.dart';
 import 'package:ems_frontend/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final dobController = TextEditingController();
   final addressController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isLoading = false;
+  void register() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      await ApiServices()
+          .register(
+        username: usernameController.text,
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        email: emailController.text,
+        dateJoined: dateJoinedController.text,
+        dob: dobController.text,
+        address: addressController.text,
+        password: passwordController.text,
+      )
+          .then(
+        (value) {
+          setState(() {
+            isLoading = false;
+          });
+          if (mounted) {
+            showCustomSnackbar(
+                context: context,
+                textContent: value['message'] == 'created'
+                    ? 'Account has been created'
+                    : value.toString());
+                    // navigating to login on failure...
+            Navigator.pushReplacement(
+              context,
+              MyCustomPageRoute(
+                route: const LoginScreen(),
+              ),
+            );
+          }
+        },
+      );
+    }
+  }
+
   void datePicker(BuildContext context,
       {required TextEditingController controller}) async {
     final rawDate = await showDatePicker(
@@ -184,7 +226,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   CustomButton(
                     btnChild: Text(
-                      'Register',
+                      isLoading ? 'Please Wait...' : 'Register',
                       textAlign: TextAlign.center,
                       style:
                           Theme.of(context).textTheme.headlineMedium!.copyWith(
@@ -193,7 +235,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                     ),
                     onTap: () {
-                      //
+                      register();
                     },
                   ),
                   const SizedBox(
@@ -207,11 +249,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(
-                            builder: (context) {
-                              return const LoginScreen();
-                            },
-                          ));
+                          Navigator.pushReplacement(context,
+                              MyCustomPageRoute(route: const LoginScreen()));
                         },
                         child: Text(
                           'Login instead',

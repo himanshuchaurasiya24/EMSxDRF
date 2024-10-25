@@ -34,28 +34,13 @@ class _LoginScreenState extends State<LoginScreen> {
           if (value['message'] == 'success') {
             if (mounted) {
               Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const HomeScreen();
-                  },
-                ),
-              );
+                  context, MyCustomPageRoute(route: const HomeScreen()));
             }
           } else {
             if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: headingTextColor,
-                  duration: const Duration(seconds: 1),
-                  content: Text(
-                    value.toString(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: backgroundColor),
-                  ),
-                ),
+              showCustomSnackbar(
+                context: context,
+                textContent: value['message'].toString(),
               );
             }
           }
@@ -166,11 +151,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(
-                            builder: (context) {
-                              return const RegisterScreen();
-                            },
-                          ));
+                          Navigator.pushReplacement(context,
+                              MyCustomPageRoute(route: const RegisterScreen()));
                         },
                         child: Text(
                           'Register here',

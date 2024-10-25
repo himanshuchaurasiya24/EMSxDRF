@@ -3,10 +3,54 @@ import 'package:flutter/material.dart';
 Color backgroundColor = const Color(0xff0d0d0d);
 String appName = 'EMS';
 Color? headingTextColor = Colors.grey[200];
+
 OutlineInputBorder borderTextField = OutlineInputBorder(
   borderRadius: BorderRadius.circular(0),
   borderSide: BorderSide.none,
 );
+void showCustomSnackbar({
+  required BuildContext context,
+  required String textContent,
+  Color? backgroundColorPara,
+  int? durationInSec,
+}) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: headingTextColor,
+      duration: Duration(seconds: durationInSec ?? 3),
+      content: Text(
+        textContent,
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(color: backgroundColorPara ?? backgroundColor),
+      ),
+      showCloseIcon: true,
+      closeIconColor: backgroundColor,
+    ),
+  );
+}
+
+class MyCustomPageRoute extends PageRouteBuilder {
+  final Widget route;
+  MyCustomPageRoute({required this.route})
+      : super(
+          pageBuilder: (
+            context,
+            animation,
+            secondaryAnimation,
+          ) {
+            return route;
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 500),
+        );
+}
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
