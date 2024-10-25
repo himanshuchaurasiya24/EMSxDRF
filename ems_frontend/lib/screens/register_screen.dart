@@ -183,7 +183,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 30,
                   ),
                   CustomButton(
-                    btnName: 'Register',
+                    btnChild: Text(
+                      'Register',
+                      textAlign: TextAlign.center,
+                      style:
+                          Theme.of(context).textTheme.headlineMedium!.copyWith(
+                                color: backgroundColor,
+                                fontSize: 50,
+                              ),
+                    ),
                     onTap: () {
                       //
                     },

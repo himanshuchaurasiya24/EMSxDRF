@@ -7,7 +7,7 @@ String registerUrl = 'http://127.0.0.1:8000/user/register/';
 
 class ApiServices {
   Future<dynamic> login(
-      {required String username, required int password}) async {
+      {required String username, required String password}) async {
     var response = await http.post(Uri.parse(loginUrl),
         body: {'username': username, 'password': password.toString()});
     dynamic data = jsonDecode(response.body);

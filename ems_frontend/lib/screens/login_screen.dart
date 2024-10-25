@@ -1,4 +1,6 @@
+import 'package:ems_frontend/api/api_services.dart';
 import 'package:ems_frontend/reusables/contants_variables.dart';
+import 'package:ems_frontend/screens/home_screen.dart';
 import 'package:ems_frontend/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +15,55 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isLoading = false;
   bool passwordVisible = true;
+  void login() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      await ApiServices()
+          .login(
+              username: usernameController.text,
+              password: passwordController.text)
+          .then(
+        (value) {
+          setState(() {
+            isLoading = false;
+          });
+          if (value['message'] == 'success') {
+            if (mounted) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const HomeScreen();
+                  },
+                ),
+              );
+            }
+          } else {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: headingTextColor,
+                  duration: const Duration(seconds: 1),
+                  content: Text(
+                    value.toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: backgroundColor),
+                  ),
+                ),
+              );
+            }
+          }
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,17 +130,29 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                         },
                         icon: passwordVisible
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off)),
+                            ? Icon(
+                                Icons.visibility,
+                                color: backgroundColor,
+                              )
+                            : Icon(Icons.visibility_off,
+                                color: backgroundColor)),
                     textController: passwordController,
                   ),
                   const SizedBox(
                     height: 30,
                   ),
                   CustomButton(
-                    btnName: 'Login',
+                    btnChild: Text(
+                      isLoading ? 'Please Wait...' : 'Login',
+                      textAlign: TextAlign.center,
+                      style:
+                          Theme.of(context).textTheme.headlineMedium!.copyWith(
+                                color: backgroundColor,
+                                fontSize: 50,
+                              ),
+                    ),
                     onTap: () {
-                      //
+                      login();
                     },
                   ),
                   const SizedBox(

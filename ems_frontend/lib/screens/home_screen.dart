@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   void login() async {
-    await ApiServices().login(username: 'anuj', password: 1234).then(
+    await ApiServices().login(username: 'anuj', password: '1234').then(
       (value) {
         if (value['message'] == 'success') {
           setState(() {

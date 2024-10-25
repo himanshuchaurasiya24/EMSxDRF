@@ -12,29 +12,21 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
     required this.onTap,
-    required this.btnName,
+    required this.btnChild,
   });
   final Function() onTap;
-  final String btnName;
+  final Widget btnChild;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: MediaQuery.of(context).size.height / 10.5,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: headingTextColor,
-        ),
-        child: Text(
-          btnName,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                color: backgroundColor,
-                fontSize: 50,
-              ),
-        ),
-      ),
+          height: MediaQuery.of(context).size.height / 10.5,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: headingTextColor,
+          ),
+          child: btnChild),
     );
   }
 }
@@ -61,9 +53,19 @@ class CustomTextFormField extends StatelessWidget {
         color: backgroundColor,
         fontSize: 19,
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return '$hintText required';
+        }
+        return null;
+      },
       readOnly: readOnly ?? false,
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
+          errorStyle: TextStyle(
+            color: headingTextColor,
+            fontSize: 15,
+          ),
           hintText: hintText,
           suffixIcon: suffixIcon,
           hintStyle: TextStyle(
