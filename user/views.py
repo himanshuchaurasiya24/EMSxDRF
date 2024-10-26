@@ -20,7 +20,8 @@ class LoginAPI(APIView):
         if not user :
             return Response({'message':'Invalid credentials'}, status=status.HTTP_404_NOT_FOUND)
         refresh= RefreshToken.for_user(user)
-        return Response({'message':'success', 'refresh':str(refresh), 'access':str(refresh.access_token)}, status=status.HTTP_200_OK)
+        
+        return Response({'message':'success', 'refresh':str(refresh), 'access':str(refresh.access_token),'user':{'id':user.id, 'username':user.username,'first_name':user.first_name, 'last_name':user.last_name,}}, status=status.HTTP_200_OK)
 class RegisterAPI(APIView):
     def post(self , request):
         data = request.data

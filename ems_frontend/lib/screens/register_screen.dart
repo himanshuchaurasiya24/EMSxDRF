@@ -51,12 +51,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ? 'Account has been created'
                     : value.toString());
                     // navigating to login on failure...
-            Navigator.pushReplacement(
+            if(value['message']=='created'){
+              Navigator.pushReplacement(
               context,
               MyCustomPageRoute(
                 route: const LoginScreen(),
               ),
             );
+            }
           }
         },
       );

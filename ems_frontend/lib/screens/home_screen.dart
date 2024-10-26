@@ -9,28 +9,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void login() async {
-    await ApiServices().login(username: 'anuj', password: '1234').then(
-      (value) {
-        if (value['message'] == 'success') {
-          setState(() {
-            centerText = '${value['access']}\n${value['refresh']}';
-          });
-        } else {
-          setState(() {
-            centerText = value['message'].toString();
-          });
-        }
-      },
-    );
-  }
+  
 
   String centerText = 'Loading...';
 
   @override
   void initState() {
     super.initState();
-    login();
   }
 
   @override
